@@ -4,7 +4,6 @@ from os import curdir,sep
 import json
 import os
 
-#Create a index.html aside the code
 #Run: python server.py
 #After run, try http://localhost:8080/
 
@@ -30,6 +29,8 @@ def sort_by_example_id(label):
     return int(label.split(".json")[0])
 
 def read_labels(folder):
+    if not os.path.exists(folder):
+        os.mkdir(folder)
     labels = os.listdir(folder)
     labels.sort(key=sort_by_example_id)
     response = json.dumps({"success": True, "labels": labels})
