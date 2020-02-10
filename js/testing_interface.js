@@ -131,7 +131,7 @@ function fillAPairPreview(pairId, inputGrid, outputGrid) {
     }
     var jqOutputGrid = pairSlot.find('.output_preview');
     if (!jqOutputGrid.length) {
-        jqOutputGrid = $('<div class="output_preview"></div>');
+        jqOutputGrid = $('<div class="output_preview" style="display: none"></div>');
         jqOutputGrid.appendTo(pairSlot);
     }
 
@@ -280,9 +280,33 @@ function cancelSave() {
     $("#check_span").hide();
 }
 
+function checkEqual() {
+    res = JSON.stringify(CURRENT_ANSWER_GRID.grid) === JSON.stringify(CURRENT_OUTPUT_GRID.grid)
+    console.log(res)
+    return res
+}
+
+function onSubmit() {
+    syncFromEditionGridToDataGrid();
+    res = checkEqual();
+    if(res == true) {
+        alert("回答正确！回忆下有什么易错的环节吧，提交一个干扰项");
+        console.log($(".output_preview"))
+        $(".output_preview").show();
+        $("#cpfroma").show();
+    }
+    else {
+        alert("干扰项已保存，下一题");
+        $(".output_preview").hide();
+        checkSave();
+        randomTask(); // refresh task
+        cancelSave(); // refresh button
+    }
+}
+
 function checkSave() {
     syncFromEditionGridToDataGrid();
-    console.log(CURRENT_OUTPUT_GRID.grid)
+    res = checkEqual();
     if (VIEW == 1) {
         overwrite = 1
         filename = FILENAME
@@ -307,8 +331,6 @@ function checkSave() {
         .done(function (data) {
             console.log(data)
         });
-    cancelSave(); // refresh button
-    randomTask(); // refresh task
 }
 
 function fillTestInput(inputGrid) {

@@ -34,7 +34,7 @@
             <div id="evaluation_view">
 
                 <div id="evaluation-input-view">
-                        <div class="text">Question and Answer
+                        <div class="text">Question
                         </div>
                     <div id="answer_preview"></div>
                 </div>
@@ -53,7 +53,7 @@
                             </div>
                             <div class="control-line">
                                 <button onclick="copyFromQuestion()">Copy from question</button>
-                                <button onclick="copyFromAnswer()">Copy from answer</button>
+                                <button id="cpfroma" onclick="copyFromAnswer()" style="display: none">Copy from answer</button>
                                 <button onclick="resetOutputGrid()">Reset grid</button>
                                 <button onclick="randomTask()">Roll new task</button>
                             </div>
@@ -61,7 +61,7 @@
                                 <button onclick="saveSolution()" id="submit_solution_btn">Save!</button>
                                 <span id="check_span">Sure to save ?</span>
                                 <button onclick="cancelSave()" id="cancel_solution_btn">Cancel</button>
-                                <button onclick="checkSave()" id="check_solution_btn">Save!</button>
+                                <button onclick="onSubmit()" id="check_solution_btn">Save!</button>
                             </div>
                         </div>
 
@@ -86,7 +86,7 @@
                         </div>
 
 
-                        <div id="toolbar">
+                        <div id="toolbar" style="display: none;">
                             <div>
                                 <input type="radio" id="tool_edit"
                                  name="tool_switching" value="edit" checked>
