@@ -44,6 +44,6 @@ tar -cf label_example label_example.tar
 
 删除功能没做QAQ，太麻烦了。实在想删除可以去 label_<用户名> 里删除相应的json文件，刷新网页即可。
 
-- 服务器崩溃
+- 服务器崩溃/网页出错
 
-terminal 里停掉 server 然后  `python2 server.py` 重启即可，所有数据都会及时保存。
+terminal 里停掉 server 然后  `python2 server.py` 重启再刷新网页即可，所有数据都已及时保存。
