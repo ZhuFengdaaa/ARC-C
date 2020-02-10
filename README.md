@@ -34,7 +34,9 @@ python2 server.py
 
 完成后将主目录下的"label_<用户名>" 的文件夹打包并收集汇总
 
+```
 tar -cf label_example label_example.tar
+```
 
 # FAQ
 
