@@ -1,66 +1,53 @@
-# The Abstraction and Reasoning Corpus (ARC)
+# The Abstraction and Reasoning Corpus (Multi Choice) (ARC-C) 干扰项标注说明
 
-This repository contains the ARC task data, as well as a browser-based interface for humans to try their hand at solving the tasks manually.
+说明：我们标注的目标是 ARC 的**干扰项**。我们提供问题和答案，请同学们标注和答案思考方向相似，但是某些逻辑推理环节出错的干扰项。(相当于学生时代的易错题)
 
-*"ARC can be seen as a general artificial intelligence benchmark, as a program synthesis benchmark, or as a psychometric intelligence test. It is targeted at both humans and artificially intelligent systems that aim at emulating a human-like form of general fluid intelligence."*
+- 下载数据集
 
-A complete description of the dataset, its goals, and its underlying logic, can be found in: [The Measure of Intelligence](https://arxiv.org/abs/1911.01547).
+```
+git clone git@github.com:ZhuFengdaaa/ARC-C.git
+```
 
-As a reminder, a test-taker is said to solve a task when, upon seeing the task for the first time, they are able to produce the correct output grid for *all* test inputs in the task (this includes picking the dimensions of the output grid). For each test input, the test-taker is allowed 3 trials (this holds for all test-takers, either humans or AI).
+- 运行网页服务器
 
+```
+python2 server.py
+```
 
-## Task file format
+- 访问标注网站
 
-The `data` directory contains two subdirectories:
+打开浏览器，访问 http://127.0.0.1:8080
 
-- `data/training`: contains the task files for training (400 tasks). Use these to prototype your algorithm or to train your algorithm to acquire ARC-relevant cognitive priors.
-- `data/evaluation`: contains the task files for evaluation (400 tasks). Use these to evaluate your final algorithm. To ensure fair evaluation results, do not leak information from the evaluation set into your algorithm (e.g. by looking at the evaluation tasks yourself during development, or by repeatedly modifying an algorithm while using its evaluation score as feedback).
+- 登录
 
-The tasks are stored in JSON format. Each task JSON file contains a dictionary with two fields:
+输入用户名(以自己名字命名)。服务器将会在 clone 下来的 ARC-C 主目录下生成名为 "label_<用户名>" 的文件夹。所有标注结果将保存在该文件夹下。
 
-- `"train"`: demonstration input/output pairs. It is a list of "pairs" (typically 3 pairs).
-- `"test"`: test input/output pairs. It is a list of "pairs" (typically 1 pair).
+- 标注
 
-A "pair" is a dictionary with two fields:
+系统将会从题库里随机抽取一道题。每道题有三个样例。每个样例 i 由一对图片(Q<sub>i</sub>, A<sub>i</sub>)组成。请找到适用于这三个样例的 (Q<sub>i</sub>,A<sub>i</sub>) 对应关系。题目的要求是对一张图片Q，给出相应的答案A。
 
-- `"input"`: the input "grid" for the pair.
-- `"output"`: the output "grid" for the pair.
+请认真思考并提交你的答案。如果错误，答案将会被保存成为干扰项。如果正确，那么请标注一个你觉得最有挑战性的干扰项。
 
-A "grid" is a rectangular matrix (list of lists) of integers between 0 and 9 (inclusive). The smallest possible grid size is 1x1 and the largest is 30x30.
+点击蓝色 "save" 按钮保存。这里为了防止误点，设置了双保险。再点击红色 "save" 按钮确认即可。
 
-When looking at a task, a test-taker has access to inputs & outputs of the demonstration pairs, plus the input(s) of the test pair(s). The goal is to construct the output grid(s) corresponding to the test input grid(s), using 3 trials for each test input. "Constructing the output grid" involves picking the height and width of the output grid, then filling each cell in the grid with a symbol (integer between 0 and 9, which are visualized as colors). Only *exact* solutions (all cells match the expected answer) can be said to be correct.
+- 提交
 
+完成后将主目录下的"label_<用户名>" 的文件夹打包并收集汇总
 
-## Usage of the testing interface
+```
+tar -cf label_example label_example.tar
+```
 
-The testing interface is located at `apps/testing_interface.html`. Open it in a web browser (Chrome recommended). It will prompt you to select a task JSON file.
+# FAQ
 
-After loading a task, you will enter the test space, which looks like this:
+- 浏览/编辑已经提交的干扰项
 
-![test space](https://arc-benchmark.s3.amazonaws.com/figs/arc_test_space.png)
+在标注界面右边有个导航栏，里面是已经提交的所有干扰项。可以用鼠标点击，跳回原来那道题。重新submit后会**覆盖**之前的结果。
 
-On the left, you will see the input/output pairs demonstrating the nature of the task. In the middle, you will see the current test input grid. On the right, you will see the controls you can use to construct the corresponding output grid.
+- 删除已经提交的干扰项
 
-You have access to the following tools:
+删除功能没做QAQ，太麻烦了。实在想删除可以去 label_<用户名> 里删除相应的json文件，刷新网页即可。
 
-### Grid controls
+- 服务器崩溃/网页出错
 
-- Resize: input a grid size (e.g. "10x20" or "4x4") and click "Resize". This preserves existing grid content (in the top left corner).
-- Copy from input: copy the input grid to the output grid. This is useful for tasks where the output consists of some modification of the input.
-- Reset grid: fill the grid with 0s.
-
-### Symbol controls
-
-- Edit: select a color (symbol) from the color picking bar, then click on a cell to set its color.
-- Select: click and drag on either the output grid or the input grid to select cells.
-    - After selecting cells on the output grid, you can select a color from the color picking to set the color of the selected cells. This is useful to draw solid rectangles or lines.
-    - After selecting cells on either the input grid or the output grid, you can press C to copy their content. After copying, you can select a cell on the output grid and press "V" to paste the copied content. You should select the cell in the top left corner of the zone you want to paste into.
-- Floodfill: click on a cell from the output grid to color all connected cells to the selected color. "Connected cells" are contiguous cells with the same color.
-
-### Answer validation
-
-When your output grid is ready, click the green "Submit!" button to check your answer. We do not enforce the 3-trials rule.
-
-After you've obtained the correct answer for the current test input grid, you can switch to the next test input grid for the task using the "Next test input" button (if there is any available; most tasks only have one test input).
-
-When you're done with a task, use the "load task" button to open a new task.
+terminal 里停掉 server 然后  `python2 server.py` 重启再刷新网页即可，所有数据都已及时保存。
