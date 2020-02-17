@@ -298,6 +298,7 @@ function onSubmit() {
     else {
         alert("干扰项已保存，下一题");
         $(".output_preview").hide();
+        $("#cpfroma").hide();
         checkSave();
         randomTask(); // refresh task
         cancelSave(); // refresh button
