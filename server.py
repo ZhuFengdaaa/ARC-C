@@ -19,7 +19,10 @@ def get_index(folder):
             for file in files:
                 if file.endswith(".json"):
                     cnts.append(int(file.split(".json")[0]))
-            indexes[folder] = max(cnts) + 1
+            if len(cnts) > 0:
+                indexes[folder] = max(cnts) + 1
+            else:
+                indexes[folder] = 0
     return indexes[folder]
 
 def write_file(folder, filename, data):
