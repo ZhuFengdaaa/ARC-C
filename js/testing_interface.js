@@ -95,21 +95,19 @@ function copyFromAnswer() {
 
 function fillPairPreview(pairId, inputGrid, outputGrid) {
     var pairSlot = $('#pair_preview_' + pairId);
-    if (!pairSlot.length) {
         // Create HTML for pair.
-        pairSlot = $('<div id="pair_preview_' + pairId + '" class="pair_preview" index="' + pairId + '"></div>');
-        pairSlot.appendTo('#task_preview');
-    }
+    slotLabel = $('<div class="preview_tag">样例' +  pairId + '</div>')
+    pairSlot = $('<div id="pair_preview_' + pairId + '" class="pair_preview" index="' + pairId + '"></div>');
+    slotLabel.appendTo('#task_preview');
+    pairSlot.appendTo('#task_preview');
     var jqInputGrid = pairSlot.find('.input_preview');
-    if (!jqInputGrid.length) {
-        jqInputGrid = $('<div class="input_preview"></div>');
-        jqInputGrid.appendTo(pairSlot);
-    }
+    gridLabel = $('<div><div class="grid_label">问题</div><div class="grid_label">答案</div></div>');
+    jqInputGrid = $('<div class="input_preview"></div>');
+    gridLabel.appendTo(pairSlot);
+    jqInputGrid.appendTo(pairSlot);
     var jqOutputGrid = pairSlot.find('.output_preview');
-    if (!jqOutputGrid.length) {
-        jqOutputGrid = $('<div class="output_preview"></div>');
-        jqOutputGrid.appendTo(pairSlot);
-    }
+    jqOutputGrid = $('<div class="output_preview"></div>');
+    jqOutputGrid.appendTo(pairSlot);
 
     fillJqGridWithData(jqInputGrid, inputGrid);
     fitCellsToContainer(jqInputGrid, inputGrid.height, inputGrid.width, 200, 200);

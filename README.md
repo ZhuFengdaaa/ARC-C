@@ -5,7 +5,7 @@
 - 下载数据集
 
 ```
-git clone git@github.com:ZhuFengdaaa/ARC-C.git
+git clone https://github.com/ZhuFengdaaa/ARC-C.git
 ```
 
 - 运行网页服务器
@@ -16,7 +16,7 @@ python2 server.py
 
 - 访问标注网站
 
-打开浏览器，访问 http://127.0.0.1:8080
+打开浏览器，访问 http://127.0.0.1:8080 。也可以在服务器上运行并输入主机IP。
 
 - 登录
 
@@ -40,7 +40,7 @@ python2 server.py
 
 这张图将第二、第四个方块翻转了，但是少了一个方块，大小对不上
 
-点击蓝色 "save" 按钮保存。这里为了防止误点，设置了双保险。再点击红色 "save" 按钮确认即可。
+注意：干扰项需要带有一到两个**逻辑错误**，可以提交带有噪点的干扰项。但请不要提交只有噪点的干扰项。
 
 - 提交标注样本
 
@@ -51,6 +51,14 @@ tar -cf label_example label_example.tar
 ```
 
 # FAQ
+
+- 保存
+
+点击蓝色 "save" 按钮保存。这里为了防止误点，设置了双保险。再点击红色 "save" 按钮确认即可。
+
+- 调整网格大小
+
+中间的乘号是 "xyz" 的 x。
 
 - 浏览/编辑已经提交的干扰项
 
