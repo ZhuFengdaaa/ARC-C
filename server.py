@@ -15,9 +15,11 @@ def get_index(folder):
         if len(files) == 0:
             indexes[folder] = 0
         else:
-            for i in range(len(files)):
-                files[i] = int(files[i].split(".json")[0])
-            indexes[folder] = max(files) + 1
+            cnts = []
+            for file in files:
+                if file.endswith(".json"):
+                    cnts.append(int(file.split(".json")[0]))
+            indexes[folder] = max(cnts) + 1
     return indexes[folder]
 
 def write_file(folder, filename, data):
@@ -32,8 +34,14 @@ def read_labels(folder):
     if not os.path.exists(folder):
         os.mkdir(folder)
     labels = os.listdir(folder)
-    labels.sort(key=sort_by_example_id)
-    response = json.dumps({"success": True, "labels": labels})
+    filtered_labels = []
+    for labelfile in labels:
+        if labelfile.endswith(".json"):
+            filtered_labels.append(labelfile)
+    print(filtered_labels)
+
+    filtered_labels.sort(key=sort_by_example_id)
+    response = json.dumps({"success": True, "labels": filtered_labels})
     return response
 
 def write_label(folder, data):
@@ -57,6 +65,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         self.data_string = self.rfile.read(int(self.headers['Content-Length']))
         data = json.loads(self.data_string)
         folder = "label_" + data["username"]
+        print(self.path)
         if self.path == '/':
             response = write_label(folder, data)
         elif self.path == '/list':
@@ -91,7 +100,6 @@ class RequestHandler(BaseHTTPRequestHandler):
                 mimeType = 'image/x-icon'
                 sendReply = True
             else:
-                pass
                 print("mimetype not found")
                 import pdb; pdb.set_trace()
 
