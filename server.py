@@ -91,6 +91,7 @@ class RequestHandler(BaseHTTPRequestHandler):
                 mimeType = 'image/x-icon'
                 sendReply = True
             else:
+                pass
                 print("mimetype not found")
                 import pdb; pdb.set_trace()
 
