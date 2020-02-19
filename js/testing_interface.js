@@ -224,6 +224,7 @@ function loadJSONLabels() {
 
 function LoadTask() {
     var task_url = TASK["download_url"].split("master/")[1]
+    console.log(task_url)
     $.getJSON(task_url, function (json) {
         try {
             train = json['train'];
@@ -239,15 +240,25 @@ function LoadTask() {
     loadJSONLabels()
 }
 
+// function randomTask() {
+//     VIEW = 0
+//     $.getJSON("training.json", function (training_tasks) {
+//         $.getJSON("evaluation.json", function (evaluation_tasks) {
+//             TASKS = training_tasks.concat(evaluation_tasks)
+//             var task = TASKS[Math.floor(Math.random() * TASKS.length)];
+//             TASK = task
+//             LoadTask()
+//         })
+//     })
+// }
+
 function randomTask() {
     VIEW = 0
-    $.getJSON("training.json", function (training_tasks) {
-        $.getJSON("evaluation.json", function (evaluation_tasks) {
-            TASKS = training_tasks.concat(evaluation_tasks)
-            var task = TASKS[Math.floor(Math.random() * TASKS.length)];
-            TASK = task
-            LoadTask()
-        })
+    $.getJSON("sub_evaluation.json", function (evaluation_tasks) {
+        TASKS = evaluation_tasks
+        var task = TASKS[Math.floor(Math.random() * TASKS.length)];
+        TASK = task
+        LoadTask()
     })
 }
 
